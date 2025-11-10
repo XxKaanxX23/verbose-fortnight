@@ -1,0 +1,15 @@
+# Runtime artifacts
+node_modules/
+*.log
+npm-debug.log*
+*-debug-*.log
+
+# Secrets / local config
+.env
+api_key_beehiv
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

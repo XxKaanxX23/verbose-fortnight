@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kaan Karmazov - Self-Mastery Vault</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #02040a;
+      --surface: rgba(9, 12, 23, 0.85);
+      --panel: rgba(14, 18, 33, 0.75);
+      --accent: #5f7bff;
+      --accent-strong: #9ac6ff;
+      --text-main: #f8fbff;
+      --text-muted: #a4aec5;
+      --border: rgba(255, 255, 255, 0.1);
+      --input-bg: rgba(6, 8, 18, 0.8);
+      --shadow-soft: 0 25px 60px rgba(5, 7, 15, 0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", "SF Pro Text", system-ui, -apple-system,
+        BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(
+          circle at 20% 20%,
+          rgba(95, 123, 255, 0.25),
+          transparent 45%
+        ),
+        radial-gradient(circle at 80% 0%, rgba(10, 211, 255, 0.2), transparent 40%),
+        var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 64px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .hero {
+      display: flex;
+      gap: 36px;
+      padding: 48px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-copy {
+      flex: 1 1 55%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .eyebrow {
+      letter-spacing: 0.28em;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 7vw, 3.25rem);
+      line-height: 1.1;
+    }
+
+    .subhead {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 46ch;
+      line-height: 1.5;
+    }
+
+    .tagline-box {
+      border: 1px solid rgba(95, 123, 255, 0.3);
+      background: rgba(24, 30, 56, 0.9);
+      border-radius: 18px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      line-height: 1.4;
+    }
+
+    .tagline-box strong {
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    input[type="email"],
+    input[type="text"] {
+      flex: 1;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 1rem;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input[type="email"]::placeholder,
+    input[type="text"]::placeholder {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    input[type="email"]:focus,
+    input[type="text"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(95, 123, 255, 0.25);
+      outline: none;
+    }
+
+    button[type="submit"] {
+      padding: 16px 26px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(120deg, var(--accent), #8f9eff);
+      color: #070812;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      min-width: 200px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: 0 18px 35px rgba(95, 123, 255, 0.35);
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 50px rgba(95, 123, 255, 0.45);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+      box-shadow: 0 12px 25px rgba(95, 123, 255, 0.4);
+    }
+
+    .microcopy {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .bonus {
+      margin-top: 12px;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+
+    .bonus h3 {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 16px;
+      color: var(--accent-strong);
+    }
+
+    .bonus-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px 24px;
+    }
+
+    .bonus-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    .bonus-dot {
+      margin-top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #9ac6ff);
+      flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(95, 123, 255, 0.7);
+    }
+
+    .hero-visual {
+      flex: 1 1 40%;
+      min-height: 360px;
+      background: linear-gradient(160deg, rgba(95, 123, 255, 0.15), transparent);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        circle at 75% -20%,
+        rgba(255, 255, 255, 0.18),
+        transparent 55%
+      );
+      pointer-events: none;
+    }
+
+    .visual-stack {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .visual-card {
+      border-radius: 20px;
+      padding: 20px;
+      background: rgba(6, 10, 28, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+      position: relative;
+      z-index: 2;
+    }
+
+    .visual-card.primary {
+      background: linear-gradient(150deg, rgba(95, 123, 255, 0.2), #060a1c);
+    }
+
+    .visual-card.secondary {
+      align-self: flex-end;
+      width: 85%;
+      background: rgba(8, 12, 28, 0.9);
+      z-index: 1;
+    }
+
+    .visual-card h4 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .visual-card ul {
+      list-style: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .visual-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 6px;
+    }
+
+    .visual-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+    }
+
+    @media (max-width: 960px) {
+      body {
+        padding: 40px 18px;
+      }
+
+      .hero {
+        flex-direction: column;
+        padding: 32px;
+        gap: 28px;
+      }
+
+      .hero-visual {
+        min-height: 320px;
+      }
+
+      .bonus-list {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 28px 16px;
+      }
+
+      .hero {
+        padding: 24px;
+        border-radius: 22px;
+      }
+
+      .hero-copy {
+        gap: 20px;
+      }
+
+      .eyebrow,
+      label {
+        letter-spacing: 0.16em;
+      }
+
+      h1 {
+        line-height: 1.15;
+        text-align: center;
+      }
+
+      .subhead,
+      .tagline-box,
+      .microcopy {
+        text-align: center;
+      }
+
+      .bonus h3 {
+        text-align: center;
+      }
+
+      .bonus-list {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        flex-direction: column;
+      }
+
+      button[type="submit"] {
+        width: 100%;
+      }
+
+      .hero-visual {
+        padding: 20px;
+        border-radius: 20px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .hero {
+        padding: 20px;
+      }
+
+      .tagline-box {
+        padding: 18px 18px;
+      }
+
+      input[type="email"],
+      input[type="text"] {
+        padding: 14px;
+        font-size: 0.95rem;
+      }
+
+      button[type="submit"] {
+        padding: 14px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero" aria-labelledby="headline">
+      <div class="hero-copy">
+        <p class="eyebrow">Self-Mastery Vault</p>
+        <h1 id="headline">Get My Entire Video Resource Vault &mdash; Free for Life</h1>
+        <p class="subhead">
+          Every framework. Every guide. Every resource from my YouTube videos all in one place.
+          Lifetime access plus short mindset emails to keep you locked in.
+        </p>
+        <div class="tagline-box" role="status" aria-live="polite">
+          <strong>Instant Access</strong>
+          <p>
+            You'll get a private Drive link that updates automatically every time I drop a new video.
+            One opt-in. Every resource. Forever.
+          </p>
+        </div>
+        <form aria-label="Get instant access to the video resource vault" data-beehiiv-form="vault">
+          <label for="vault-name">First name</label>
+          <div class="form-row">
+            <input
+              type="text"
+              id="vault-name"
+              name="firstName"
+              placeholder="Kaan"
+              autocomplete="given-name"
+              required
+            />
+          </div>
+          <label for="vault-email">Enter your best email</label>
+          <div class="form-row">
+            <input
+              type="email"
+              id="vault-email"
+              name="email"
+              placeholder="you@domain.com"
+              autocomplete="email"
+              required
+            />
+            <button type="submit">Get Instant Access</button>
+          </div>
+          <p class="microcopy form-status" data-form-status role="status" aria-live="polite"></p>
+        </form>
+        <p class="microcopy">
+          No spam. No fluff. Just raw insights on mindset, purpose, and self-mastery &mdash; straight to your inbox.
+          Unsubscribe anytime.
+        </p>
+        <div class="bonus">
+          <h3>Inside the vault you'll get</h3>
+          <ul class="bonus-list">
+            <li class="bonus-item">
+              <span class="bonus-dot" aria-hidden="true"></span>
+              <span>Every current video resource (PDFs, notes, and frameworks)</span>
+            </li>
+            <li class="bonus-item">
+              <span class="bonus-dot" aria-hidden="true"></span>
+              <span>Automatic access to all future resources</span>
+            </li>
+            <li class="bonus-item">
+              <span class="bonus-dot" aria-hidden="true"></span>
+              <span>Weekly mindset and discipline emails</span>
+            </li>
+            <li class="bonus-item">
+              <span class="bonus-dot" aria-hidden="true"></span>
+              <span>Lifetime access to the private drive</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="hero-visual"
+        role="img"
+        aria-label="Stylized preview of the evolving video resource vault"
+      >
+        <div class="visual-stack">
+          <div class="visual-card primary">
+            <div class="visual-pill">
+              <span>&bull;</span>
+              Vault Update
+            </div>
+            <h4>Discipline Lab 012</h4>
+            <ul>
+              <li>Focus Sprint Template</li>
+              <li>Mission Brief PDF</li>
+              <li>Integration Notes</li>
+            </ul>
+          </div>
+          <div class="visual-card secondary">
+            <div class="visual-pill">
+              <span>&bull;</span>
+              Next Drop
+            </div>
+            <h4>Mindset Reset Audio</h4>
+            <p>Auto-added to your drive the moment it goes live.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script defer src="./subscribe.js"></script>
+</body>
+</html>
