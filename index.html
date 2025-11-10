@@ -408,6 +408,7 @@
           Every framework. Every guide. Every resource from my YouTube videos all in one place.
           Lifetime access plus short mindset emails to keep you locked in.
         </p>
+
         <div class="tagline-box" role="status" aria-live="polite">
           <strong>Instant Access</strong>
           <p>
@@ -415,7 +416,13 @@
             One opt-in. Every resource. Forever.
           </p>
         </div>
-        <form aria-label="Get instant access to the video resource vault" data-beehiiv-form="vault">
+
+        <!-- FORM WIRED TO VERCEL FUNCTION -->
+        <form
+          aria-label="Get instant access to the video resource vault"
+          action="/api/subscribe"
+          method="POST"
+        >
           <label for="vault-name">First name</label>
           <div class="form-row">
             <input
@@ -427,6 +434,7 @@
               required
             />
           </div>
+
           <label for="vault-email">Enter your best email</label>
           <div class="form-row">
             <input
@@ -439,12 +447,15 @@
             />
             <button type="submit">Get Instant Access</button>
           </div>
+
           <p class="microcopy form-status" data-form-status role="status" aria-live="polite"></p>
         </form>
+
         <p class="microcopy">
           No spam. No fluff. Just raw insights on mindset, purpose, and self-mastery &mdash; straight to your inbox.
           Unsubscribe anytime.
         </p>
+
         <div class="bonus">
           <h3>Inside the vault you'll get</h3>
           <ul class="bonus-list">
@@ -467,6 +478,7 @@
           </ul>
         </div>
       </div>
+
       <div
         class="hero-visual"
         role="img"
@@ -497,6 +509,6 @@
       </div>
     </section>
   </div>
-  <script defer src="./subscribe.js"></script>
 </body>
 </html>
+
