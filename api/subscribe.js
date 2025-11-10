@@ -4,9 +4,11 @@ const fs = require('fs/promises');
 
 const PUBLICATION_ID =
   process.env.BEEHIIV_PUBLICATION_ID || 'pub_c9b8177c-2f58-4851-aef6-6cceae9f3743';
+
 const endpointUrl = new URL(
   `https://api.beehiiv.com/v2/publications/${PUBLICATION_ID}/subscriptions`
 );
+
 const apiKeyPath = path.resolve(__dirname, '..', 'api_key_beehiv');
 
 let cachedApiKey;
@@ -61,6 +63,7 @@ function parseRequestBody(body) {
     try {
       return JSON.parse(body);
     } catch {
+      // If it's not JSON, ignore here (we may fall back to URLSearchParams elsewhere)
       return undefined;
     }
   }
@@ -128,10 +131,22 @@ async function handler(req, res) {
 
   let parsedBody = parseRequestBody(req.body);
 
+  // If nothing parsed, try reading raw stream (for HTML form submits)
   if (!parsedBody && req.body === undefined && req.readable !== false) {
     try {
       const raw = await readStream(req);
+
+      // Try JSON first
       parsedBody = parseRequestBody(raw);
+
+      // If still nothing, assume x-www-form-urlencoded
+      if (!parsedBody && typeof raw === 'string') {
+        const params = new URLSearchParams(raw);
+        parsedBody = {
+          email: params.get('email') || '',
+          firstName: params.get('firstName') || params.get('first_name') || '',
+        };
+      }
     } catch (streamErr) {
       console.error('Failed to parse request body:', streamErr);
     }
@@ -174,7 +189,9 @@ async function handler(req, res) {
         .json({ error: parsed?.message || 'Failed to subscribe' });
     }
 
-    return res.status(200).json({ success: true, data: parsed });
+    // ✅ SUCCESS: redirect to success page
+    res.writeHead(302, { Location: '/success.html' });
+    return res.end();
   } catch (error) {
     console.error('Subscribe handler error:', error);
     return res.status(500).json({ error: 'Internal server error' });
@@ -183,3 +200,4 @@ async function handler(req, res) {
 
 module.exports = handler;
 module.exports.default = handler;
+
